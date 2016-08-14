@@ -43,6 +43,9 @@
         <div class="ui item">
             <div class="ui teal large label">{{ client.get_delivery_type_display }}</div>
         </div>
+        <div class="ui item">
+            <i class="marker big {% if client.is_geolocalized %}green{% else %}red{% endif %} icon"></i>
+        </div>
       <div class="ui item">
           <div class="ui dropdown status">
               <div class="ui large yellow label text">{{ client.get_status_display }}</div>
@@ -86,6 +89,6 @@
         <!-- A block used by all children to include content here-->
         {% endblock %}
     </div>
-    
+
 </div>
 {% endblock %}

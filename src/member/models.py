@@ -489,6 +489,13 @@ class Client(models.Model):
         return self.client_notes.all()
 
     @property
+    def scheduled_statuses(self):
+        """
+        Returns scheduled status associated to this client
+        """
+        return self.client_scheduled_statuses.all()
+
+    @property
     def meals_schedule(self):
         """
         Returns a hierarchical dict representing the meals schedule.
@@ -622,7 +629,8 @@ class ClientScheduledStatus(models.Model):
 
     client = models.ForeignKey(
         Client,
-        on_delete=models.CASCADE
+        on_delete=models.CASCADE,
+        related_name='client_scheduled_statuses'
     )
 
     linked_scheduled_status = models.ForeignKey(
@@ -667,6 +675,9 @@ class ClientScheduledStatus(models.Model):
         default=TOBEPROCESSED
     )
 
+    class Meta:
+        ordering = ['change_date']
+
     def __str__(self):
         return "Update {} status: from {} to {}, on {}".format(
             self.client.member,
@@ -698,17 +709,26 @@ class ClientScheduledStatus(models.Model):
             and self.operation_status == self.TOBEPROCESSED
 
     def add_note_to_client(self, author=None):
-        # Define message
-        # message = self
-        # if self.linked_scheduled_status:
-        #     message += ' Related to: {}'.format(self.linked_scheduled_status)
-        # Store message
         note = Note(
             note=self,
             author=author,
             client=self.client,
         )
         note.save()
+
+
+class ClientScheduledStatusFilter(FilterSet):
+
+    ALL = 'all'
+
+    operation_status = ChoiceFilter(
+        choices=((ALL, _('All')),) + ClientScheduledStatus.OPERATION_STATUS,
+        # initial=ClientScheduledStatus.PROCESSED
+    )
+
+    class Meta:
+        model = ClientScheduledStatus
+        fields = ['operation_status']
 
 
 class ClientFilter(FilterSet):

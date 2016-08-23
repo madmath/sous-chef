@@ -650,6 +650,7 @@ class ClientStatusView(generic.DetailView):
     def get_context_data(self, **kwargs):
         context = super(ClientStatusView, self).get_context_data(**kwargs)
         context['active_tab'] = 'status'
+        context['client_status'] = Client.CLIENT_STATUS
         context['filter'] = ClientScheduledStatusFilter(
             {'operation_status': self.get_default_ops_value()},
             queryset=self.object.scheduled_statuses)

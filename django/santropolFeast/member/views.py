@@ -636,11 +636,9 @@ class ClientStatusView(generic.DetailView):
     model = Client
     template_name = 'client/view/status.html'
 
-    # DON'T KNOW WHAT THIS METHOD IS USED FOR
-    # STATUS PAGE IS OK WITH OR WITHOUT..
-    # @method_decorator(login_required)
-    # def dispatch(self, *args, **kwargs):
-    #     return super(ClientStatusView, self).dispatch(*args, **kwargs)
+    @method_decorator(login_required)
+    def dispatch(self, *args, **kwargs):
+        return super(ClientStatusView, self).dispatch(*args, **kwargs)
 
     def get_default_ops_value(self):
         operation_status_value = self.request.GET.get(

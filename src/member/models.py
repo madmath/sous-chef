@@ -712,7 +712,7 @@ class ClientScheduledStatus(models.Model):
 
 class ClientScheduledStatusFilter(FilterSet):
 
-    ALL = 'all'
+    ALL = 'ALL'
 
     operation_status = ChoiceFilter(
         choices=((ALL, _('All')),) + ClientScheduledStatus.OPERATION_STATUS,

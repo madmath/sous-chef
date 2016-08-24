@@ -489,13 +489,6 @@ class Client(models.Model):
         return self.client_notes.all()
 
     @property
-    def scheduled_statuses(self):
-        """
-        Returns scheduled status associated to this client
-        """
-        return self.client_scheduled_statuses.all()
-
-    @property
     def meals_schedule(self):
         """
         Returns a hierarchical dict representing the meals schedule.
@@ -630,7 +623,7 @@ class ClientScheduledStatus(models.Model):
     client = models.ForeignKey(
         Client,
         on_delete=models.CASCADE,
-        related_name='client_scheduled_statuses'
+        related_name='scheduled_statuses'
     )
 
     linked_scheduled_status = models.ForeignKey(

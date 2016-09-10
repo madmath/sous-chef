@@ -32,9 +32,7 @@ class TestBilling(TestCase):
             delivery_date=datetime.datetime.today(), status="D"
             )
         month = datetime.datetime.now().strftime("%m")
-        print(month)
         year = datetime.datetime.now().strftime("%y")
-        print(year)
         orders = Order.objects.get_orders_for_month(month, year)
 
         self.assertTrue(order, orders.first())
@@ -44,9 +42,7 @@ class TestBilling(TestCase):
             client=ClientFactory(), delivery_date=datetime.datetime.today()
             )
         month = datetime.datetime.now().strftime("%m")
-        print(month)
         year = datetime.datetime.now().strftime("%y")
-        print(year)
         orders = Order.objects.get_orders_for_month_client(
             month, year, order.client
             )
